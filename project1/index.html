@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/fontawesome-free-5.15.4-web/css/all.css" />
+    <link rel="stylesheet" href="js/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="js/easyButton/src/easy-button.css" />
+    <link
+      rel="stylesheet"
+      href="Leaflet.markercluster-1.4.1/dist/MarkerCluster.css"
+    />
+    <link
+      rel="stylesheet"
+      href="Leaflet.markercluster-1.4.1/dist/MarkerCluster.Default.css"
+    />
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+
+    <title>Gazetteer</title>
+  </head>
+  <body>
+    <div id="preloader"></div>
+    <span id="selectContainer">
+      <select id="countrySelect" class="form-select shadow-sm">
+        <option value="GB">United Kingdom</option>
+      </select>
+      <div id="populationMessage" style="display: none"></div>
+    </span>
+
+    <div id="map"></div>
+
+    <div id="weatherModal" class="modal" data-bs-backdrop="false" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content shadow">
+          <div class="modal-header bg-success bg-gradient text-white">
+            <h5 class="modal-title">Weather Overview</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-striped"></table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-success btn-sm"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="currencyModal"
+      class="modal"
+      data-bs-backdrop="false"
+      tabindex="-1"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content shadow">
+          <div class="modal-header bg-success bg-gradient text-white">
+            <h5 class="modal-title">Currency Overview</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <td>
+                    <label for="localCurrency">Local Currency</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="localCurrency"
+                      name="localCurrency"
+                      class="form-control"
+                      value="1"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="foreignCurrency">USD Currency</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="foreignCurrency"
+                      name="foreignCurrency"
+                      class="form-control"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-success btn-sm"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="wikipediaModal"
+      class="modal"
+      data-bs-backdrop="false"
+      tabindex="-1"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content shadow">
+          <div class="modal-header bg-success bg-gradient text-white">
+            <h5 class="modal-title">Wikipedia Overview</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Data will be inserted here -->
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-success btn-sm"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      id="newsModal"
+      class="modal fade"
+      tabindex="-1"
+      data-bs-backdrop="false"
+      data-bs-keyboard="false"
+      aria-labelledby="newsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content shadow">
+          <div class="modal-header bg-danger bg-gradient text-white">
+            <h5 class="modal-title" id="newsModalLabel">BREAKING NEWS</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <!-- Dynamic news content will be inserted here -->
+            <!-- Example of the first news item -->
+            <table class="table table-borderless">
+              <tbody>
+                <!-- Insert dynamic rows here -->
+              </tbody>
+            </table>
+            <!-- Use hr tags to separate news items if needed -->
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="countryDetailsModal"
+      class="modal"
+      data-bs-backdrop="false"
+      tabindex="-1"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content shadow">
+          <div class="modal-header bg-success bg-gradient text-white">
+            <h5 class="modal-title">Country Overview</h5>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-striped">
+              <tr>
+                <td class="text-center">
+                  <i class="fa-solid fa-street-view fa-xl text-success"></i>
+                </td>
+
+                <td>Attribute</td>
+
+                <td class="text-end">value</td>
+              </tr>
+              <tr>
+                <td class="text-center">
+                  <i class="fa-solid fa-heart fa-xl text-success"></i>
+                </td>
+
+                <td>Attribute</td>
+
+                <td class="text-end">value</td>
+              </tr>
+              <tr>
+                <td class="text-center">
+                  <i class="fa-solid fa-car fa-xl text-success"></i>
+                </td>
+
+                <td>Attribute</td>
+                <td class="text-end">value</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-success btn-sm"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      type="text/javascript"
+      src="css/fontawesome-free-5.15.4-web/js/fontawesome.min.js"
+    ></script>
+    <script type="text/javascript" src="js/leaflet/dist/leaflet.js"></script>
+    <script src="js/easyButton/src/easy-button.js"></script>
+    <script src="Leaflet.markercluster-1.4.1/dist/leaflet.markercluster-src.js"></script>
+    <script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <link rel="stylesheet" href="css/styles.css" />
+  </body>
+</html>
