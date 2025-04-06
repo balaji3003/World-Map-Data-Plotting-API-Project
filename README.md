@@ -1,3 +1,2 @@
-# backup_of_project1
-# backup_of_project1
-# backup_of_project1
+# World map plot with local information project
+PHP MySQL and Javascript based
